@@ -1,0 +1,4 @@
+.bashrc-general
+===============
+
+bash setup
