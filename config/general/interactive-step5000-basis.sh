@@ -35,3 +35,7 @@ export EDITOR='gui-emacs'
 function back() { cd -; }; export -f back
 function pu() { pushd "$@"; }; export -f pu
 function po() { popd; }; export -f po
+function lsd() 
+{ 
+    find ${1-.} -type d -maxdepth 1| awk 'BEGIN { FS = "/" } ; { print $NF }'|column; 
+}; export -f lsd
