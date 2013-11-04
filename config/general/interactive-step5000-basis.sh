@@ -39,3 +39,22 @@ function lsd()
 { 
     find ${1-.} -type d -maxdepth 1| awk 'BEGIN { FS = "/" } ; { print $NF }'|column; 
 }; export -f lsd
+
+# Emacs
+function emacs() {
+    open -a /Applications/Emacs.app $@;
+}; export -f emacs
+function ec() {
+    /Applications/Emacs.app/Contents/MacOS/bin/emacsclient $@;
+}; export -f ec
+
+# SSB
+function myraf() { pyraf --ipython; }; export -f myraf
+
+# SSB CRDS
+function togglecrdspath() {
+    current=$CRDS_PATH
+    CRDS_PATH=${CRDS_PATH_ALTERNATE:-'~/Documents/ssbdev/testdata/crds'}
+    CRDS_PATH_ALTERNATE=$current
+    echo "CRDS_PATH $current -> $CRDS_PATH"
+}; export -f togglecrdspath
