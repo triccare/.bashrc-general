@@ -11,14 +11,16 @@
 #    actual BASH files.
 #
 #    The files are executed as follows:
-#        all-stepDDDD-description.sh
-#        nonlogin-stepDDDD-description.sh
-#        login-stepDDDD-description.sh
+#        all/stepDDDD-description.sh
+#        nonlogin/stepDDDD-description.sh
+#        login/stepDDDD-description.sh
+#        interactive/stepDDDD-description.sh
+#        noninteractive/stepDDDD-description.sh
 #
 #    where the following conventions are being used:
 #        all == Executed always
-#        nonlogin == Executed for nonlogin shells.
 #        login == Executed for login shells.
+#        nonlogin == Executed for nonlogin shells.
 #        interactive == Executed for interactive shells.
 #        noninteractive == Executed for non-interactive shells.
 # 
@@ -40,11 +42,11 @@ pkgs=(${_BOOTENVBASH//;/ })
 CONFDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/config/"
 
 # Define the file regex
-fileregexall='all-step????-*.sh'
-fileregexlogin='login-step????-*.sh'
-fileregexnonlogin='nonlogin-step????-*.sh'
-fileregexinteractive='interactive-step????-*.sh'
-fileregexnoninteractive='noninteractive-step????-*.sh'
+fileregexall='all/step????-*.sh'
+fileregexlogin='login/step????-*.sh'
+fileregexnonlogin='nonlogin/step????-*.sh'
+fileregexinteractive='interactive/step????-*.sh'
+fileregexnoninteractive='noninteractive/step????-*.sh'
 
 # Run through the packages
 for pkg in "${pkgs[@]}"; do
