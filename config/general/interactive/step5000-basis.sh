@@ -67,22 +67,3 @@ function po() { popd; }; export -f po
 function lsd() {
     find ${1-.} -type d -maxdepth 1| awk 'BEGIN { FS = "/" } ; { print $NF }'|column; 
 }; export -f lsd
-
-# Emacs
-function ec() {
-    emacsclient $@;
-}; export -f ec
-
-# Run python modules
-# Create functions with the name of the module to run
-# substituting '_' for '.'
-#
-# Example:
-#    function class_subclass_module { 
-#      _pythonmodulerun $FUNCNAME $*
-#    }; export -f class_subclass_module
-function _pythonmodulerun() {
-    cmd=${1//_/.}
-    shift
-    python -m $cmd $@ 
-}; export -f _pythonmodulerun
