@@ -41,7 +41,6 @@ function ur_switch() {
     echo
 
     modeIndex=$(elementIndex $mode alphabet)
-    echo $modeIndex
     if [ "$modeIndex" -gt "$index" ]; then
         echo "No change in environment"
     else
