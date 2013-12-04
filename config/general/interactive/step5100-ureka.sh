@@ -1,60 +1,52 @@
 # Ureka setup: personal commands
 
-# Default usable and development
-function ur_active() {
-    ur_setup active primary
-}
-
-# Development Ureka
-function ur_dev() {
-    ur_setup develop primary
-}
-
-# Daily default and development
-function ur_daily_active() {
-    ur_setup active daily-dev
-}
-function ur_daily_dev() {
-    ur_setup develop daily-dev
-}
-
 # Figure out which one we're using
 function ur_what() {
     if [ -z $UR_DIR ]; then
         echo 'No Ureka in use'
     else
-        patharray=(${UR_DIR//\// })
-        ureka=${patharray[${#patharray} - 2]}
+        local patharray=(${UR_DIR//\// })
+        local ureka=${patharray[${#patharray} - 2]}
         echo "${ureka}/${UR_VARIANT}"
     fi
 }
 
 function ur_switch() {
+    local alphabet conflist urargs dotureka name location lpath lname Variants variant index mode modeIndex
+    alphabet=({a..z})
     conflist=()
     urargs=()
     dotureka=$HOME/.ureka
+
     for name in `ls $dotureka`; do
         if [ -d "$dotureka/$name" ]; then
-            l=`cat $dotureka/$name/location`
-            lpath=(${l//\// })
+            location=`cat $dotureka/$name/location`
+            lpath=(${location//\// })
             lname=${lpath[${#lpath} -2]}
-            if [ -e $l ]; then
-                V=$l/variants
-                for v in `ls $V`; do
-                    conflist+=("(${name})\t${lname}/${v}")
-                    urargs+=("${v} ${name}")
+            if [ -e $location ]; then
+                Variants=$location/variants
+                for variant in `ls $Variants`; do
+                    conflist+=("(${name})\t${lname}/${variant}")
+                    urargs+=("${variant} ${name}")
                 done
             fi
         fi
     done
 
-    for ((i=0; i<${#conflist[@]}; i++)); do
-        echo -e "[$i] ${conflist[$i]}"
+    for ((index=0; index<${#conflist[@]}; index++)); do
+        echo -e "[${alphabet[$index]}] ${conflist[$index]}"
     done
     
     read -n 1 -p 'Enter mode: ' mode
     echo
 
-    ur_setup ${urargs[$mode]}
+    modeIndex=$(elementIndex $mode alphabet)
+    echo $modeIndex
+    if [ "$modeIndex" -gt "$index" ]; then
+        echo "No change in environment"
+    else
+        ur_setup ${urargs[$modeIndex]}
+    fi
+
     ur_what
 }

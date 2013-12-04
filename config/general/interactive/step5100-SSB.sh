@@ -15,3 +15,4 @@ function togglecrdspath() {
 
 # Setup various command line shortcuts
 function crds_diff() { _pythonmodulerun $FUNCNAME $*; }; export -f crds_diff
+function proto() { _pythonmodulerun $FUNCNAME $*; }; export -f proto
