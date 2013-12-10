@@ -17,3 +17,7 @@ function gittunnel() {
     fi
     ssh -f -N -L $localport:$gitserver:22 $sshserver
 }; export -f gittunnel
+
+function gt_grit() {
+    gittunnel 10022 grit.stsci.edu hecatean
+}; export -f gt_grit
