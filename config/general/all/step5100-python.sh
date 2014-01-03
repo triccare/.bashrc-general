@@ -4,6 +4,7 @@
 
 # Where to find my stuff.
 export PYTHONPATH=~/bin/python/lib
+export PYTHONSTARTUP=~/bin/python/startup.py
 
 # Run python modules
 # Create functions with the name of the module to run
