@@ -26,3 +26,8 @@ function piprefreshall() {
     python -m piprefresh
     python3 -m piprefresh
 }; export -f piprefreshall
+
+# Startup an ipython notebook in silence
+function pynb() {
+    ipython notebook >& /dev/null &
+}; export -f pynb
