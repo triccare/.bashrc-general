@@ -60,6 +60,7 @@ fi
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
+
 # Folders
 function back() { cd -; }; export -f back
 function pu() { pushd "$@"; }; export -f pu
@@ -67,3 +68,8 @@ function po() { popd; }; export -f po
 function lsd() {
     find ${1-.} -type d -maxdepth 1| awk 'BEGIN { FS = "/" } ; { print $NF }'|column; 
 }; export -f lsd
+
+# Process handling
+function fp { # Find a process
+    ps axu | grep -i $1 | grep -v grep
+}; export fp;
