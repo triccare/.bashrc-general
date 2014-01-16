@@ -70,6 +70,6 @@ function lsd() {
 }; export -f lsd
 
 # Process handling
-function fp { # Find a process
+function fp() { # Find a process
     ps axu | grep -i $1 | grep -v grep
-}; export fp;
+}; export -f fp;
