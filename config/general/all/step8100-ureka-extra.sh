@@ -11,26 +11,42 @@ function ur_what() {
     fi
 }
 
+function ur_list() {
+    local dotureka urekapath location variant result
+
+    dotureka=$HOME/.ureka
+    result=()
+
+    for urekapath in `find $dotureka -type d -mindepth 1`; do
+        urekaname=(${urekapath//\// })
+        urekaname=${urekaname[${#urekaname[@]} -1]}
+        location=`cat ${urekapath}/location`
+        if [ -e $location ]; then
+            for variant in `find $location/variants -type d -mindepth 1 -maxdepth 1`; do
+                variantname=(${variant//\// })
+                variantname=${variantname[${#variantname[@]} -1]}
+                result+=("$urekaname,$variantname,$location/variants/$variantname")
+            done
+        fi
+    done
+
+    echo ${result[@]}
+
+}; export -f ur_list
+
 function ur_switch() {
-    local alphabet conflist urargs dotureka name location lpath lname Variants variant index mode modeIndex
+    local alphabet conflist urargs name variant index mode modeIndex variant_path
     alphabet=({a..z})
     conflist=()
     urargs=()
-    dotureka=$HOME/.ureka
 
-    for name in `ls $dotureka`; do
-        if [ -d "$dotureka/$name" ]; then
-            location=`cat $dotureka/$name/location`
-            lpath=(${location//\// })
-            lname=${lpath[${#lpath} -2]}
-            if [ -e $location ]; then
-                Variants=$location/variants
-                for variant in `ls $Variants`; do
-                    conflist+=("(${name})\t${lname}/${variant}")
-                    urargs+=("${variant} ${name}")
-                done
-            fi
-        fi
+    for ureka in `ur_list`; do
+        ureka=(${ureka//,/ })
+        name=${ureka[0]}
+        variant=${ureka[1]}
+        variant_path=${ureak[2]}
+        conflist+=("${name}/${variant}")
+        urargs+=("${variant} ${name}")
     done
 
     for ((index=0; index<${#conflist[@]}; index++)); do
@@ -48,4 +64,44 @@ function ur_switch() {
     fi
 
     ur_what
-}
+}; export -f ur_switch
+
+function ur_remove() {
+    local alphabet conflist rmargs name variant index mode modeIndex variant_path
+    alphabet=({a..z})
+    conflist=()
+    rmargs=()
+
+    for ureka in `ur_list`; do
+        ureka=(${ureka//,/ })
+        name=${ureka[0]}
+        variant=${ureka[1]}
+        variant_path=${ureka[2]}
+        if [ $variant != "common" ]; then
+            conflist+=("${name}/${variant}")
+            rmargs+=("${variant_path}")
+        fi
+    done
+
+    for ((index=0; index<${#conflist[@]}; index++)); do
+        echo -e "[${alphabet[$index]}] ${conflist[$index]} <${rmargs[$index]}>"
+    done
+    
+    read -n 1 -p 'Remove? ' mode
+    echo
+
+    modeIndex=$(elementIndex $mode alphabet)
+    if [ "$modeIndex" -gt "$index" ]; then
+        echo "No change in environment"
+    else
+        read -p "Remove ${conflist[$modeIndex]} (n/YES)? " confirm
+        echo
+
+        if [ $confirm = 'YES' ]; then
+            rm -rfv ${rmargs[$modeIndex]}
+        else
+            echo 'Nope, no delete for you!'
+        fi
+    fi
+
+}; export -f ur_remove
