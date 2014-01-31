@@ -12,7 +12,12 @@ function ur_what() {
 }
 
 function ur_list() {
-    local dotureka urekapath location variant result
+    local dotureka format location result ureka urekapath variant
+
+    format=
+    if [ -z $1 ]; then
+        format='format'
+    fi
 
     dotureka=$HOME/.ureka
     result=()
@@ -30,7 +35,12 @@ function ur_list() {
         fi
     done
 
-    echo ${result[@]}
+    if [ -z $format ]; then
+        echo ${result[@]}
+    else
+        resline=${result[@]}
+        echo -e ${resline// /\\n} | column -t -s, -c3
+    fi
 
 }; export -f ur_list
 
@@ -40,7 +50,7 @@ function ur_switch() {
     conflist=()
     urargs=()
 
-    for ureka in `ur_list`; do
+    for ureka in `ur_list noformat`; do
         ureka=(${ureka//,/ })
         name=${ureka[0]}
         variant=${ureka[1]}
@@ -72,7 +82,7 @@ function ur_remove() {
     conflist=()
     rmargs=()
 
-    for ureka in `ur_list`; do
+    for ureka in `ur_list noformat`; do
         ureka=(${ureka//,/ })
         name=${ureka[0]}
         variant=${ureka[1]}
