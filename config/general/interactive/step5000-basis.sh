@@ -3,7 +3,8 @@
 ################
 
 # Prompt
-export PS1='\h:\W$ '
+export PS1='[\u@\h \W]\\$ '
+export PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
 
 ################
 # Aliases
