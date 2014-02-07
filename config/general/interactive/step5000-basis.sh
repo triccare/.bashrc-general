@@ -22,7 +22,7 @@ alias cp="cp -i"
 #  directory listing aliases
 alias l="ls -FG"
 
-alias ll="ls -laG"
+alias ll="ls -la"
 alias la="ls -aFG"
 
 ################
