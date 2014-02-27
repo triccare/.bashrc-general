@@ -29,5 +29,5 @@ function piprefreshall() {
 
 # Startup an ipython notebook in silence
 function pynb() {
-    ipython notebook >& /dev/null &
+    nohup ipython notebook >& /dev/null &
 }; export -f pynb
