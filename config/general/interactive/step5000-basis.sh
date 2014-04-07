@@ -22,8 +22,8 @@ alias cp="cp -i"
 #  directory listing aliases
 alias l="ls -FG"
 
-alias ll="ls -la"
-alias la="ls -aFG"
+alias ll="ls -lah"
+alias la="ls -aFGh"
 
 ################
 # Environmental
@@ -78,3 +78,8 @@ function lsd() {
 function fp() { # Find a process
     ps axu | grep -i $1 | grep -v grep
 }; export -f fp;
+
+# Search a tree
+function egdown() {
+    find . -iname "${2}" -follow -type f -exec egrep -iH "${1}" {} \; | more
+}; export -f egdown

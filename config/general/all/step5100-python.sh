@@ -6,6 +6,118 @@
 export PYTHONPATH=~/bin/python/lib
 export PYTHONSTARTUP=~/bin/python/startup.py
 
+#
+# virtualenv helpers
+####################
+export PYVIRTPATH=$HOME/bin/python_virtualenv
+
+function pyvirt_new() {
+    local name
+
+    name=$1
+    if [ -z $name ]; then
+        read -p 'New virtualenv name: ' name
+    fi
+
+    deactivate
+    pushd $PYVIRTPATH
+    virtualenv $name
+    popd
+    source $PYVIRTPATH/$name/bin/activate
+}; export -f pyvirt_new
+
+function pyvirt_list() {
+    local result virtpath virtname format resline
+
+    format=
+    if [ -z $1 ]; then
+        format='format'
+    fi
+
+    result=()
+    for virtpath in `find $PYVIRTPATH -type d -mindepth 1 -maxdepth 1`; do
+        virtname=(${virtpath//\// })
+        virtname=${virtname[${#virtname[@]} -1]}
+        result+=($virtname)
+    done
+
+    if [ -z $format ]; then
+        echo ${result[@]}
+    else
+        resline=${result[@]}
+        echo -e ${resline// /\\n}
+    fi
+
+}; export -f pyvirt_list
+
+
+function pyvirt_activate() {
+    
+    name=$1
+    if [ -z $name ]; then
+        read -p 'Which env? ' name
+    fi
+
+    source ${PYVIRTPATH}/${name}/bin/activate
+}; export -f pyvirt_activate
+
+function pyvirt_switch() {
+    local alphabet conflist name index mode modeIndex
+    alphabet=({a..z})
+    conflist=()
+
+    for name in `pyvirt_list noformat`; do
+        conflist+=("${name}")
+    done
+
+    for ((index=0; index<${#conflist[@]}; index++)); do
+        echo -e "[${alphabet[$index]}] ${conflist[$index]}"
+    done
+    
+    read -n 1 -p 'Enter mode: ' mode
+    echo
+
+    modeIndex=$(elementIndex $mode alphabet)
+    if [ "$modeIndex" -gt "$index" ]; then
+        echo "No change in environment"
+    else
+        deactivate 2> /dev/null
+        pyvirt_activate ${conflist[$modeIndex]}
+    fi
+
+}; export -f pyvirt_switch
+
+function pyvirt_remove() {
+    local alphabet conflist name index mode modeIndex confirm
+    alphabet=({a..z})
+    conflist=()
+
+    for name in `pyvirt_list noformat`; do
+        conflist+=("${name}")
+    done
+
+    for ((index=0; index<${#conflist[@]}; index++)); do
+        echo -e "[${alphabet[$index]}] ${conflist[$index]}"
+    done
+    
+    read -n 1 -p 'Remove which mode? ' mode
+    echo
+
+    modeIndex=$(elementIndex $mode alphabet)
+    if [ "$modeIndex" -gt `expr ${#conflist[@]} - 1` ]; then
+        echo "Nothing removed."
+    else
+        read -p "Remove ${conflist[$modeIndex]} (n/YES)? " confirm
+        echo
+
+        if [ $confirm = 'YES' ]; then
+            rm -rfv ${PYVIRTPATH}/${conflist[$modeIndex]}
+        else
+            echo 'Nope, no delete for you!'
+        fi
+    fi
+}; export pyvirt_remove
+
 # Run python modules
 # Create functions with the name of the module to run
 # substituting '_' for '.'
