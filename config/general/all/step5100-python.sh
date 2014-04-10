@@ -143,3 +143,43 @@ function piprefreshall() {
 function pynb() {
     nohup ipython notebook >& /dev/null &
 }; export -f pynb
+
+#
+# Python Notebook helpers
+#########################
+
+#
+# Find and open an already existing iPython Notebook
+function ipynb_open() {
+
+    local port_start
+
+    port_start=8888
+    nports=10
+    host="http://127.0.0.1:"
+    port_check="curl -I -s ${host}"
+
+    alphabet=({a..z})
+    conflist=()
+
+    for port in `seq ${port_start} $(($port_start + $nports))`; do
+        junk=`${port_check}${port}`
+        if [ $? -eq 0 ]; then
+            conflist+=("${port}")
+        fi
+    done
+
+    for ((index=0; index<${#conflist[@]}; index++)); do
+        echo -e "[${alphabet[$index]}] ${conflist[$index]}"
+    done
+    
+    read -n 1 -p 'Open which notebook? ' mode
+    echo
+
+    modeIndex=$(elementIndex $mode alphabet)
+    if [ "$modeIndex" -gt `expr ${#conflist[@]} - 1` ]; then
+        echo "Invalid notebook."
+    else
+        open ${host}${conflist[$modeIndex]}
+    fi
+}
