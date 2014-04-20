@@ -150,9 +150,9 @@ function pynb() {
 
 #
 # Find and open an already existing iPython Notebook
-function ipynb_open() {
+function pynb_open() {
 
-    local port_start
+    local alphabet conflist host index junk mode modeIndex nports port port_check port_start
 
     port_start=8888
     nports=10
@@ -182,4 +182,4 @@ function ipynb_open() {
     else
         open ${host}${conflist[$modeIndex]}
     fi
-}
+}; export -f pynb_open
