@@ -139,14 +139,14 @@ function piprefreshall() {
     python3 -m piprefresh
 }; export -f piprefreshall
 
-# Startup an ipython notebook in silence
-function pynb() {
-    nohup ipython notebook >& /dev/null &
-}; export -f pynb
-
 #
 # Python Notebook helpers
 #########################
+
+# Startup an ipython notebook in silence
+function pynb() {
+    tmux new-session -d 'ipython notebook'
+}; export -f pynb
 
 #
 # Find and open an already existing iPython Notebook
