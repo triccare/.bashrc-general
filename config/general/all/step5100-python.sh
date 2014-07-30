@@ -9,6 +9,11 @@ export PYTHONSTARTUP=~/bin/python/startup.py
 #
 # virtualenv helpers
 ####################
+VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/
+source /usr/local/bin/virtualenvwrapper.sh
+
 export PYVIRTPATH=$HOME/bin/python_virtualenv
 
 function pyvirt_new() {
