@@ -78,9 +78,12 @@ function lsd() {
 # Process handling
 function fp() { # Find a process
     ps axu | grep -i $1 | grep -v grep
-}; export -f fp;
+}; export -f fp
 
 # Search a tree
 function egdown() {
     find . -iname "${2}" -follow -type f -exec egrep -iH "${1}" {} \; | more
 }; export -f egdown
+function fs() {
+    find . -iname "*${1}*"
+}; export -f fs
