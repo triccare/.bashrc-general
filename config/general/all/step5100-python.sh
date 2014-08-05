@@ -3,15 +3,16 @@
 # General python setup
 
 # Where to find my stuff.
-export PYTHONPATH=~/bin/python/lib
-export PYTHONSTARTUP=~/bin/python/startup.py
+export PYTHONPATH=$HOME/bin/python/lib
+export PYTHONSTARTUP=$HOME/bin/python/startup.py
 
 #
 # virtualenv helpers
 ####################
-VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
 export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/
+export VIRTUALENVWRAPPER_HOOK_DIR=$HOME/bin/python/virtualenvs
+export PROJECT_HOME=$HOME/Documents/projects_vw
 if [ -e /usr/local/bin/virtualenvwrapper.sh ]; then
     source /usr/local/bin/virtualenvwrapper.sh
 fi
