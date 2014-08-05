@@ -2,6 +2,11 @@
 #
 # General python setup
 
+# Basic install of environment
+function pipsetup() {
+    pip install --upgrade -r $HOME/bin/python/pip-basic-requirements.txt
+}; export -f pipsetup
+
 # Where to find my stuff.
 export PYTHONPATH=$HOME/bin/python/lib
 export PYTHONSTARTUP=$HOME/bin/python/startup.py
