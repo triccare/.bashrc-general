@@ -12,7 +12,7 @@ export PYTHONSTARTUP=~/bin/python/startup.py
 VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/
-if [ -z /usr/local/bin/virtualenvwrapper.sh ]; then
+if [ -e /usr/local/bin/virtualenvwrapper.sh ]; then
     source /usr/local/bin/virtualenvwrapper.sh
 fi
 
