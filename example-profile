@@ -1,0 +1,5 @@
+_BOOTSHELL=`ps -hp $$|awk '{print $NF}' | awk -F '/' '{print $NF}'`
+
+if [ ${_BOOTSHELL} == "bash" -a -e ${HOME}/.bashrc-general/boot.sh ]; then
+   . ${HOME}/.bashrc-general/boot.sh
+fi
