@@ -14,7 +14,7 @@ export PYTHONSTARTUP=$HOME/bin/python/startup.py
 #
 # virtualenv helpers
 ####################
-export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+export VIRTUALENVWRAPPER_PYTHON=`which python`
 export WORKON_HOME=$HOME/.virtualenvs
 export VIRTUALENVWRAPPER_HOOK_DIR=$HOME/bin/python/virtualenvs
 export PROJECT_HOME=$HOME/Documents/projects_vw
