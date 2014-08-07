@@ -10,23 +10,23 @@
 #    arbitrary names. Within each subfolder, will be the
 #    actual BASH files.
 #
-#    The files are executed as follows:
-#        all/stepDDDD-description.sh
-#        nonlogin/stepDDDD-description.sh
-#        login/stepDDDD-description.sh
-#        interactive/stepDDDD-description.sh
-#        noninteractive/stepDDDD-description.sh
+#    The files are executed as follows, if $pkg represents the package
+#     folder:
+#        $pkg/stepDDDD-description.sh
+#        $pkg/login/stepDDDD-description.sh <= only if login shell
+#        $pkg/nonlogin/stepDDDD-description.sh <= only if non-login shell
+#        $pkg/interactive/stepDDDD-description.sh <= only if  interactive shell
+#        $pkg/noninteractive/stepDDDD-description.sh <= only if non-interactive shell
 #
-#    where the following conventions are being used:
-#        all == Executed always
-#        login == Executed for login shells.
-#        nonlogin == Executed for nonlogin shells.
-#        interactive == Executed for interactive shells.
-#        noninteractive == Executed for non-interactive shells.
-# 
+# where: 
 #        DDDD == A zero-fill number defining the order of execution, starting from 0.
 #                NOTE: Does not need to be consecutive. Number to allow insertion.
 #        description == Arbitrary description. Ignored by this script.
+#
+#    Note: Each of the subfolders are then recursively searched as if
+#    they are packages themselves. So each of the types can have a login,
+#    nonlogin, interactive, and noninteractive subfolder. This allows for
+#    all combinations, and many, many nonsensical combinations of shells.
 #
 #    Which package folders, and in what order, is defined by the
 #    environment variable 'BOOTENVBASH', a semicolon-separated
@@ -35,80 +35,49 @@
 ########################################
 
 # Define the package list if not defined.
-_BOOTENVBASH=${BOOTENVBASH-'general;'${HOSTNAME}}
-pkgs=(${_BOOTENVBASH//;/ })
+_BB_ENV=${BOOTENVBASH-"general;"${HOSTNAME}}
+_BB_pkgs=(${_BB_ENV//;/ })
 
 # Constants
-CONFDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/config/"
+_BB_CONFDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/config/"
 
-# Define the file regex
-fileregexall='all/step????-*.sh'
-fileregexlogin='login/step????-*.sh'
-fileregexnonlogin='nonlogin/step????-*.sh'
-fileregexinteractive='interactive/step????-*.sh'
-fileregexnoninteractive='noninteractive/step????-*.sh'
+_BB_runpkg () {
+
+    if [ ! -z "$1" ]; then
+        local pkgpath=$1
+
+        # Define the file regex
+        local stepregex="step????-*.sh"
+
+        if [ -d $pkgpath ]; then
+
+            # Do the all scripts.
+            local globpath=$pkgpath"/"$stepregex
+            local scripts=($globpath)
+            if [ "${globpath}" != "${scripts}" ]; then
+                for script in "${scripts[@]}"; do
+                    source "${script}"
+                done
+            fi
+
+            # Login/non-login shells
+            if shopt -q login_shell ; then
+                _BB_runpkg $pkgpath"/login"
+            else
+                _BB_runpkg $pkgpath"/nonlogin"
+            fi
+
+            # Do the interactive/non-interactive scripts
+            if [ -z "$PS1" ] ; then
+                _BB_runpkg $pkgpath"/noninteractive"
+            else
+                _BB_runpkg $pkgpath"/interactive"
+            fi
+        fi
+    fi
+}
 
 # Run through the packages
-for pkg in "${pkgs[@]}"; do
-    pkgpath=$CONFDIR$pkg
-    if [ -d "$pkgpath" ]; then
-
-        # Do the all scripts.
-        globpath=$pkgpath'/'$fileregexall
-        scripts=($globpath)
-        if [ "${globpath}" != "${scripts}" ]; then
-            for script in "${scripts[@]}"; do
-                source "${script}"
-            done
-        fi
-
-        # Do the login/non-login scripts
-        if shopt -q login_shell ; then
-
-            # Login shell
-            globpath=$pkgpath'/'$fileregexlogin
-            scripts=($globpath)
-            if [ "${globpath}" != "${scripts}" ]; then
-                for script in "${scripts[@]}"; do
-                    source "${script}"
-                done
-            fi
-
-        else
-
-            # Non-login shell
-            globpath=$pkgpath'/'$fileregexnonlogin
-            scripts=($globpath)
-            if [ "${globpath}" != "${scripts}" ]; then
-                for script in "${scripts[@]}"; do
-                    source "${script}"
-                done
-            fi
-        fi
-
-        # Do the interactive/non-interactive scripts
-        if [ -z "$PS1" ] ; then
-
-            # Non-interactive shell
-            globpath=$pkgpath'/'$fileregexnoninteractive
-            scripts=($globpath)
-            if [ "${globpath}" != "${scripts}" ]; then
-                for script in "${scripts[@]}"; do
-                    source "${script}"
-                done
-            fi
-
-        else
-
-            # Interactive shell
-            globpath=$pkgpath'/'$fileregexinteractive
-            scripts=($globpath)
-            if [ "${globpath}" != "${scripts}" ]; then
-                for script in "${scripts[@]}"; do
-                    source "${script}"
-                done
-            fi
-        fi
-
-    fi
+for _BB_pkg in "${_BB_pkgs[@]}"; do
+    _BB_runpkg $_BB_CONFDIR$_BB_pkg
 done
