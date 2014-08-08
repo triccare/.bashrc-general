@@ -44,7 +44,10 @@ function piprefreshall() {
 
 # Startup an ipython notebook in silence
 function pynb() {
-    tmux new-session -d 'ipython notebook'
+    local venv=${VIRTUAL_ENV-"sys"}
+    venv=${venv##*/}
+    local cwd=${PWD##*/}
+    tmux new-session -s "$venv/$cwd" -d 'ipython notebook'
 }; export -f pynb
 
 #
