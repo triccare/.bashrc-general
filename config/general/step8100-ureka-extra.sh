@@ -22,12 +22,12 @@ function ur_list() {
     dotureka=$HOME/.ureka
     result=()
 
-    for urekapath in `find $dotureka -type d -mindepth 1`; do
+    for urekapath in `find $dotureka -mindepth 1 -type d`; do
         urekaname=(${urekapath//\// })
         urekaname=${urekaname[${#urekaname[@]} -1]}
         location=`cat ${urekapath}/location`
         if [ -e $location ]; then
-            for variant in `find $location/variants -type d -mindepth 1 -maxdepth 1`; do
+            for variant in `find $location/variants -mindepth 1 -maxdepth 1 -type d`; do
                 variantname=(${variant//\// })
                 variantname=${variantname[${#variantname[@]} -1]}
                 result+=("$urekaname,$variantname,$location/variants/$variantname")
