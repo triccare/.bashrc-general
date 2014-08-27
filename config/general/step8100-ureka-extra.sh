@@ -108,6 +108,7 @@ function ur_remove() {
         echo
 
         if [ $confirm = 'YES' ]; then
+            ur_forget
             rm -rfv ${rmargs[$modeIndex]}
         else
             echo 'Nope, no delete for you!'
