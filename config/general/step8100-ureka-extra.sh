@@ -5,11 +5,31 @@ function ur_what() {
     if [ -z $UR_DIR ]; then
         echo 'No Ureka in use'
     else
-        local patharray=(${UR_DIR//\// })
-        local ureka=${patharray[${#patharray} - 2]}
-        echo "${ureka}/${UR_VARIANT}"
+        local dotureka=$HOME/.ureka
+        local regex=".*/(.*)/location"
+        local path=`find $HOME/.ureka -name location -exec grep -iH "$UR_DIR" {} \;`
+        if [[ "$path" =~ $regex ]]; then
+            echo "${BASH_REMATCH[1]}/${UR_VARIANT}"
+        else
+            echo "Cannot find current setup, '${UR_DIR}, in '${dotureka}'"
+        fi
     fi
 }
+
+function ur_clean() {
+    local urekaname urekapath
+    local dotureka=$HOME/.ureka
+
+    for urekapath in `find $dotureka -mindepth 1 -type d`; do
+        urekaname=(${urekapath//\// })
+        urekaname=${urekaname[${#urekaname[@]} -1]}
+        location=`cat ${urekapath}/location`
+        if [ ! -e $location ]; then
+            echo "Ureka '$urekaname' no longer actually exists, removing."
+            /bin/rm -rfv $urekapath
+        fi
+    done
+}; export -f ur_clean
 
 function ur_list() {
     local dotureka format location result ureka urekapath variant
