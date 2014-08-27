@@ -115,3 +115,15 @@ function ur_remove() {
     fi
 
 }; export -f ur_remove
+
+function ur_new() {
+    if [ -z $1 ]; then
+        echo "Usage: ur_new <new configuration name> [<ureka base installation>]"
+        return 1
+    fi
+
+    ur_setup -n $1 $2
+    pipsetup
+    python -m piprefresh
+
+}; export -f ur_new
