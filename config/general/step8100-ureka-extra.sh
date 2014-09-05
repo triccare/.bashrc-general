@@ -144,7 +144,7 @@ function ur_new() {
     fi
 
     ur_setup -n $1 $2
-    pipsetup
     python -m piprefresh
+    pipsetup
 
 }; export -f ur_new

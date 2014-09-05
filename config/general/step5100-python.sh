@@ -85,3 +85,18 @@ function pynb_open() {
         open ${host}${conflist[$modeIndex]}
     fi
 }; export -f pynb_open
+
+function mkpynb() {
+    if [[ -z $1 ]]; then
+        echo "Usage: mkpynb <filename>"
+        return 1
+    fi
+
+    local ext=""
+    if [ "$1" == "${1##*.}" ]; then
+        ext='.ipynb'
+    fi
+
+    cp -iv $HOME/bin/python/lib/template.ipynb $1$ext
+
+}; export -f mkpynb
