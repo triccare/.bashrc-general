@@ -89,6 +89,11 @@ function pynb_open() {
     fi
 }; export -f pynb_open
 
+####################################
+# Create different python files based on need.
+#
+
+# Create a new notebook
 function mkpynb() {
     if [[ -z $1 ]]; then
         echo "Usage: mkpynb <filename>"
@@ -103,3 +108,35 @@ function mkpynb() {
     cp -iv $HOME/bin/python/lib/template.ipynb $1$ext
 
 }; export -f mkpynb
+
+# Create a new kata
+function mkkata() {
+    if [[ -z $1 ]]; then
+        echo "Usage: mkkata <filename>"
+        return 1
+    fi
+
+    local ext=""
+    if [ "$1" == "${1##*.}" ]; then
+        ext='.py'
+    fi
+
+    cp -iv $HOME/bin/python/lib/kata-template.py $1$ext
+
+}; export -f mkkata
+
+# Create a new module
+function mkmodule() {
+    if [[ -z $1 ]]; then
+        echo "Usage: mkmodule <filename>"
+        return 1
+    fi
+
+    local ext=""
+    if [ "$1" == "${1##*.}" ]; then
+        ext='.py'
+    fi
+
+    cp -iv $HOME/bin/python/lib/module_template.py $1$ext
+
+}; export -f mkmodule
