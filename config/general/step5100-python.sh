@@ -140,3 +140,21 @@ function mkmodule() {
     cp -iv $HOME/bin/python/lib/module_template.py $1$ext
 
 }; export -f mkmodule
+
+######
+# PyQt install. Go from the base install.
+function lnpyqt() {
+    local LIBS=( PyQt4 sip.so )
+
+    local PYTHON_VERSION=python$(python -c "import sys; print (str(sys.version_info[0])+'.'+str(sys.version_info[1]))")
+    local VAR=( $(which -a $PYTHON_VERSION) )
+
+    local GET_PYTHON_LIB_CMD="from distutils.sysconfig import get_python_lib; print (get_python_lib())"
+    local LIB_VIRTUALENV_PATH=$(python -c "$GET_PYTHON_LIB_CMD")
+    local LIB_SYSTEM_PATH=$(${VAR[${#VAR[@]} - 1]} -c "$GET_PYTHON_LIB_CMD")
+
+    local LIB
+    for LIB in ${LIBS[@]}; do
+        ln -s $LIB_SYSTEM_PATH/$LIB $LIB_VIRTUALENV_PATH/$LIB 
+    done
+}; export -f lnpyqt
