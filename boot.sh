@@ -56,6 +56,7 @@ _BB_runpkg () {
             local scripts=($globpath)
             if [ "${globpath}" != "${scripts}" ]; then
                 for script in "${scripts[@]}"; do
+                    # echo "    executing script ${script}..."
                     source "${script}"
                 done
             fi
@@ -79,5 +80,6 @@ _BB_runpkg () {
 
 # Run through the packages
 for _BB_pkg in "${_BB_pkgs[@]}"; do
+    # echo "Importing package ${_BB_pkg}"
     _BB_runpkg $_BB_CONFDIR$_BB_pkg
 done
