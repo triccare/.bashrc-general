@@ -148,3 +148,15 @@ function ur_new() {
     pipsetup
 
 }; export -f ur_new
+
+#
+# ssbdev install
+#
+function install_ssbdev() {
+    local tmp='/tmp'
+
+    pushd $tmp
+    curl -O http://ssb.stsci.edu/ssb_installer
+    sh ./ssb_installer
+    popd
+}; export -f install_ssbdev

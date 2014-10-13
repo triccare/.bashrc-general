@@ -87,3 +87,8 @@ function egdown() {
 function fs() {
     find . -iname "*${1}*"
 }; export -f fs
+
+# Use rsync as copy
+function csync() {
+    rsync -PLur "$@"
+}; export -f csync
