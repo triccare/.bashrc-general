@@ -144,6 +144,7 @@ function ur_new() {
     fi
 
     ur_setup -n $1 $2
+    loadpyqt
     python -m piprefresh
     pipsetup
 
