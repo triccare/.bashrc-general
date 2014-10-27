@@ -12,6 +12,13 @@ function pipsetup() {
     pip install --upgrade -r $HOME/bin/python/pip-basic-requirements.txt $PYTHONUSEUSER $@
 }; export -f pipsetup
 
+function pipscience() {
+    echo "pipscience: Updatiing currently installed pips..."
+    python -m piprefresh
+    echo "pipscience: Installing science pips..."
+    pip install --upgrade -r $HOME/bin/python/pip-science-requirements.txt $PYTHONUSEUSER $@
+}; export -f pipscience
+
 ################
 #
 # Where to find my stuff.
