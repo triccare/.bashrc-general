@@ -34,6 +34,9 @@
 #    a default of 'general;<hostname>' will be used.
 ########################################
 
+# Uncomment to print out diagnostics
+#_BB_debug=1
+
 # Define the package list if not defined.
 _BB_ENV=${BOOTENVBASH-"general;"${HOSTNAME}}
 _BB_pkgs=(${_BB_ENV//;/ })
@@ -56,7 +59,9 @@ _BB_runpkg () {
             local scripts=($globpath)
             if [ "${globpath}" != "${scripts}" ]; then
                 for script in "${scripts[@]}"; do
-                    # echo "    executing script ${script}..."
+                    if [ -n "$_BB_debug" ]; then
+                        echo "    executing script ${script}..."
+                    fi
                     source "${script}"
                 done
             fi
@@ -80,6 +85,8 @@ _BB_runpkg () {
 
 # Run through the packages
 for _BB_pkg in "${_BB_pkgs[@]}"; do
-    # echo "Importing package ${_BB_pkg}"
+    if [ -n "$_BB_debug" ]; then
+        echo "Importing package ${_BB_pkg}"
+    fi
     _BB_runpkg $_BB_CONFDIR$_BB_pkg
 done
