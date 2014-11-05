@@ -57,7 +57,9 @@ function pynb() {
     local venv=${VIRTUAL_ENV-"sys"}
     venv=${venv##*/}
     local cwd=${PWD##*/}
+    [ -n "$TMUX" ] && local tmp_tmux="$TMUX" && unset TMUX
     tmux new-session -s "$venv/$cwd" -d 'ipython notebook'
+    [ -n "$tmp_tmux" ] && export TMUX="$tmp_tmux"
 }; export -f pynb
 
 #

@@ -37,6 +37,8 @@
 # Uncomment to print out diagnostics
 #_BB_debug=1
 
+[ -n "$_BB_debug" ] && echo "PATH is '${PATH}'"
+
 # Define the package list if not defined.
 _BB_ENV=${BOOTENVBASH-"general;"${HOSTNAME}}
 _BB_pkgs=(${_BB_ENV//;/ })

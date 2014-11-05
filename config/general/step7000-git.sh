@@ -29,4 +29,4 @@ function git_author() {
                 echo "git repo author is `git config user.name` <`git config user.email`>"
         fi
     fi
-}; export of git_author
+}; export -f git_author
