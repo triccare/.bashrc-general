@@ -8,27 +8,34 @@ function mktmux() {
 }; export -f mktmux
 
 function attach() {
-    local session
 
-    alphabet=({a..z})
+    local conflist
+    alphabet=({a..z} \~)
     conflist=()
 
+    local session
     for session in `tmux list-session -F "#S"`; do
         conflist+=("$session")
     done
 
-    for ((index=0; index<${#conflist[@]}; index++)); do
-        echo -e "[${alphabet[$index]}] ${conflist[$index]}"
-    done
+    if [ -n "$conflist" ]; then
+        local index
+        for ((index=0; index<${#conflist[@]}; index++)); do
+            echo -e "[${alphabet[$index]}] ${conflist[$index]}"
+        done
 
-    read -n 1 -p 'Attache to? ' session
-    echo
+        read -n 1 -p 'Attach to? ' session
+        echo
+    
+        local answerIndex=$(elementIndex ${session:-\~} alphabet)
+        if [ "$answerIndex" -gt "$index" ]; then
+            echo "Wrong answer! Nothing done for you!"
+        else
+            tmux attach -t ${conflist[$answerIndex]}
+        fi
 
-    answerIndex=$(elementIndex $session alphabet)
-    if [ "$answerIndex" -gt "$index" ]; then
-        echo "Wrong answer! Nothing done for you!"
     else
-        tmux attach -t ${conflist[$answerIndex]}
+        echo "No tmux to mux to...start a tmux next time."
     fi
 
 }; export -f attach
