@@ -54,12 +54,13 @@ function piprefreshall() {
 
 # Startup an ipython notebook in silence
 function pynb() {
+    local tmpdir=${TMPDIR:-/tmp}
+    tmpdir=${tmpdir%/}
     local venv=${VIRTUAL_ENV-"sys"}
     venv=${venv##*/}
     local cwd=${PWD##*/}
-    [ -n "$TMUX" ] && local tmp_tmux="$TMUX" && unset TMUX
-    tmux new-session -s "$venv/$cwd" -d 'ipython notebook'
-    [ -n "$tmp_tmux" ] && export TMUX="$tmp_tmux"
+    local fname="${venv}_${cwd}"
+    nohup ipython notebook > $tmpdir/$fname.log &
 }; export -f pynb
 
 #
@@ -73,7 +74,7 @@ function pynb_open() {
     host="http://127.0.0.1:"
     port_check="curl -I -s ${host}"
 
-    alphabet=({a..z})
+    alphabet=({a..z} \~)
     conflist=()
 
     for port in `seq ${port_start} $(($port_start + $nports))`; do
@@ -83,18 +84,22 @@ function pynb_open() {
         fi
     done
 
-    for ((index=0; index<${#conflist[@]}; index++)); do
-        echo -e "[${alphabet[$index]}] ${conflist[$index]}"
-    done
+    if [ -n "$conflist" ]; then
+        for ((index=0; index<${#conflist[@]}; index++)); do
+            echo -e "[${alphabet[$index]}] ${conflist[$index]}"
+        done
     
-    read -n 1 -p 'Open which notebook? ' mode
-    echo
+        read -n 1 -p 'Open which notebook? ' mode
+        echo
 
-    modeIndex=$(elementIndex $mode alphabet)
-    if [ "$modeIndex" -gt `expr ${#conflist[@]} - 1` ]; then
-        echo "Invalid notebook."
+        modeIndex=$(elementIndex ${mode:-\~} alphabet)
+        if [ "$modeIndex" -gt `expr ${#conflist[@]} - 1` ]; then
+            echo "Invalid notebook: Really!?!? I gave you the list..."
+        else
+            open ${host}${conflist[$modeIndex]}
+        fi
     else
-        open ${host}${conflist[$modeIndex]}
+        echo "No notebook server running...try starting one..."
     fi
 }; export -f pynb_open
 
