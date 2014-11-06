@@ -1,6 +1,9 @@
 # tmux utilities
 function mktmux() {
     local name="`date +%Y%m%d`-`date +%k%M%S`"
+    if [ "$1" ]; then
+        name="$1"
+    fi
     tmux new-session -s "$name"
 }; export -f mktmux
 
