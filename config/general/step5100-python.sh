@@ -32,13 +32,13 @@ export PYTHONUSERBASE=$HOME/bin/python/pkgs
 # substituting '_' for '.'
 #
 # Example:
-#    function class_subclass_module { 
+#    function class_subclass_module {
 #      _pythonmodulerun $FUNCNAME $*
 #    }; export -f class_subclass_module
 function _pythonmodulerun() {
     cmd=${1//_/.}
     shift
-    python -m $cmd $@ 
+    python -m $cmd $@
 }; export -f _pythonmodulerun
 
 # Setup for refreshing all packages
@@ -63,6 +63,12 @@ function pynb() {
     nohup ipython notebook > $tmpdir/$fname.log &
 }; export -f pynb
 
+function pynb_tmux() {
+    local ur
+    ur=`ur_what`
+    local urcomp=(${ur//\// })
+    tmux new-session -s $ur "ur_setup ${urcomp[1]} ${urcomp[0]}; ipython notebook"
+}
 #
 # Find and open an already existing iPython Notebook
 function pynb_open() {
@@ -88,7 +94,7 @@ function pynb_open() {
         for ((index=0; index<${#conflist[@]}; index++)); do
             echo -e "[${alphabet[$index]}] ${conflist[$index]}"
         done
-    
+
         read -n 1 -p 'Open which notebook? ' mode
         echo
 
@@ -169,6 +175,6 @@ function lnpyqt() {
 
     local LIB
     for LIB in ${LIBS[@]}; do
-        ln -s $LIB_SYSTEM_PATH/$LIB $LIB_VIRTUALENV_PATH/$LIB 
+        ln -s $LIB_SYSTEM_PATH/$LIB $LIB_VIRTUALENV_PATH/$LIB
     done
 }; export -f lnpyqt

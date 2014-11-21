@@ -2,9 +2,9 @@
 #
 # UREKA setup
 
-ur_setup() {
+function ur_setup() {
     eval `$HOME/.ureka/ur_setup -sh $*`
-}
-ur_forget() {
+}; export -f ur_setup
+function ur_forget() {
     eval `$HOME/.ureka/ur_forget -sh $*`
-}
+}; export -f ur_forget

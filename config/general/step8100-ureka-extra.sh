@@ -82,7 +82,7 @@ function ur_switch() {
     for ((index=0; index<${#conflist[@]}; index++)); do
         echo -e "[${alphabet[$index]}] ${conflist[$index]}"
     done
-    
+
     read -n 1 -p 'Enter mode: ' mode
     echo
 
@@ -116,7 +116,7 @@ function ur_remove() {
     for ((index=0; index<${#conflist[@]}; index++)); do
         echo -e "[${alphabet[$index]}] ${conflist[$index]} <${rmargs[$index]}>"
     done
-    
+
     read -n 1 -p 'Remove? ' mode
     echo
 
