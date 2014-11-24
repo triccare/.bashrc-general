@@ -53,7 +53,7 @@ function piprefreshall() {
 #########################
 
 # Startup an ipython notebook in silence
-function pynb() {
+function pynb_plain() {
     local tmpdir=${TMPDIR:-/tmp}
     tmpdir=${tmpdir%/}
     local venv=${VIRTUAL_ENV-"sys"}
@@ -61,14 +61,15 @@ function pynb() {
     local cwd=${PWD##*/}
     local fname="${venv}_${cwd}"
     nohup ipython notebook > $tmpdir/$fname.log &
-}; export -f pynb
+}; export -f pynb_plain
 
-function pynb_tmux() {
+function pynb() {
     local ur
     ur=`ur_what`
     local urcomp=(${ur//\// })
-    tmux new-session -s $ur "ur_setup ${urcomp[1]} ${urcomp[0]}; ipython notebook"
-}
+    tmux new-session -s "$ur" "ur_setup ${urcomp[1]} ${urcomp[0]}; ipython notebook"
+}; export -f pynb
+
 #
 # Find and open an already existing iPython Notebook
 function pynb_open() {
