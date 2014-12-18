@@ -67,7 +67,11 @@ function pynb() {
     local ur
     ur=`ur_what`
     local urcomp=(${ur//\// })
-    tmux new-session -s "$ur" "ur_setup ${urcomp[1]} ${urcomp[0]}; ipython notebook"
+    local sname dname
+    dname=`pwd`
+    dname=`basename $dname`
+    sname="${ur}/${dname}"
+    tmux new-session -s "$sname" "ur_setup ${urcomp[1]} ${urcomp[0]}; ipython notebook"
 }; export -f pynb
 
 #
