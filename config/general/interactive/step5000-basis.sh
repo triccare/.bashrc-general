@@ -7,7 +7,8 @@ export PS1='[\u@\h \W]\\$ '
 export PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
 
 function term_title() {
-    echo -ne "\033]0;"$*"\007"
+    _TERM_TITLE=$*;
+    export PROMPT_COMMAND='printf "\033]0;%s\007" "${_TERM_TITLE}"'
 }; export -f term_title
 
 ################
