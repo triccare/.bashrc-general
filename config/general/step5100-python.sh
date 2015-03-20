@@ -2,6 +2,13 @@
 #
 # General python setup
 
+################
+#
+# Where to find my stuff.
+export PYTHONPATH=$HOME/bin/python/lib
+export PYTHONSTARTUP=$HOME/bin/python/startup.py
+export PYTHONUSERBASE=$HOME/bin/python/pkgs
+
 ###################
 #
 # Basic install of environment
@@ -19,12 +26,9 @@ function pipscience() {
     pip install --upgrade -r $HOME/bin/python/pip-science-requirements.txt $PYTHONUSEUSER $@
 }; export -f pipscience
 
-################
-#
-# Where to find my stuff.
-export PYTHONPATH=$HOME/bin/python/lib
-export PYTHONSTARTUP=$HOME/bin/python/startup.py
-export PYTHONUSERBASE=$HOME/bin/python/pkgs
+function pypkgclean() {
+    rm -rf ./build ./docs/build ./docs/_build
+}; export -f pypkgclean
 
 ###################################
 # Run python modules
@@ -48,9 +52,8 @@ function piprefreshall() {
     python3 -m piprefresh
 }; export -f piprefreshall
 
-#
-# Python Notebook helpers
 #########################
+# Python Notebook helpers
 
 # Startup an ipython notebook in silence
 function pynb_plain() {
