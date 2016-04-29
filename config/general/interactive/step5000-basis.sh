@@ -4,7 +4,13 @@
 
 # Prompt
 export PS1='[\u@\h \W]\\$ '
-export PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+case "$TERM" in
+    xterm*)
+        export PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+        ;;
+    *)
+        ;;
+esac
 
 function term_title() {
     _TERM_TITLE=$*;

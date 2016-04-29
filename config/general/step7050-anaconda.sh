@@ -89,6 +89,8 @@ function conda_deactivate() {
 }; export conda_deactivate
 
 function conda_new() {
-    local newenv=${1:?Environment not specified}
-    conda create --name $newenv --clone root
+    local newenv=${1:?"Usage: conda_new <name> <pythonversion>"}
+    local pversion=${2:-"3"}
+    conda create --name $newenv python=$pversion anaconda
+    conda_activate $newenv
 }

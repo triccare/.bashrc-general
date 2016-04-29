@@ -28,6 +28,7 @@ function pipscience() {
 
 function pypkgclean() {
     rm -rf ./build ./docs/build ./docs/_build
+    python setup.py clean
 }; export -f pypkgclean
 
 ###################################
