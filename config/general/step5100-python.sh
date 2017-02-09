@@ -6,8 +6,6 @@
 #
 # Where to find my stuff.
 export PYTHONPATH=$HOME/bin/python/lib
-export PYTHONSTARTUP=$HOME/bin/python/startup.py
-export PYTHONUSERBASE=$HOME/bin/python/pkgs
 
 ###################
 #
