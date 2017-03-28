@@ -99,3 +99,6 @@ function fs() {
 function csync() {
     rsync -PLur "$@"
 }; export -f csync
+
+# Be friendly to your group
+umask 2
