@@ -97,7 +97,7 @@ function fs() {
 
 # Use rsync as copy
 function csync() {
-    rsync -PLur "$@"
+    rsync -Pur "$@"
 }; export -f csync
 
 # Be friendly to your group
