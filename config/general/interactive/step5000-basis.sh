@@ -97,7 +97,7 @@ function fs() {
 
 # Use rsync as copy
 function csync() {
-    rsync -Pur "$@"
+    rsync -Pur --no-perms --chmod=ugo=rwX "$@"
 }; export -f csync
 
 # Be friendly to your group
