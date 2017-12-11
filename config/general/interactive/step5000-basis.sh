@@ -100,5 +100,10 @@ function csync() {
     rsync -Pur --no-perms --chmod=ugo=rwX "$@"
 }; export -f csync
 
+# Find in history
+function fh() {
+    history|grep -i $1
+}
+
 # Be friendly to your group
 umask 2
