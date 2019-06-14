@@ -7,12 +7,18 @@
 # Where to find my stuff.
 export PYTHONPATH=$HOME/bin/python/lib
 
+# ############
+# python shell
+function pybash() {
+    ipython --profile=cmdshell
+}
+
 ###################
 #
 # Basic install of environment
 function pipsetup() {
-    echo "pipsetup: Updating currently installed pips"
-    python -m piprefresh
+    #echo "pipsetup: Updating currently installed pips"
+    #python -m piprefresh
     echo "pipsetup: Installing required pips"
     pip install --upgrade -r $HOME/bin/python/pip-basic-requirements.txt $PYTHONUSEUSER $@
 }; export -f pipsetup

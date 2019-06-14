@@ -1,4 +1,10 @@
+# Setup the conda environment
+
 # Utitlity functions for anaconda.
+
+function conda_pip_update() {
+    python -m conda_pip_update $1
+}
 
 function conda_envs() {
     conda info --envs
@@ -81,16 +87,18 @@ function conda_remove() {
 
 function conda_activate() {
     local newenv=${1:?Environment not specified}
-    source activate ${newenv}
+    conda activate ${newenv}
 }; export -f conda_activate
 
 function conda_deactivate() {
-    source deactivate
+    conda deactivate
 }; export conda_deactivate
 
 function conda_new() {
-    local newenv=${1:?"Usage: conda_new <name> <pythonversion>"}
-    local pversion=${2:-"3"}
-    conda create --name $newenv python=$pversion anaconda
+    local newenv=${1:?"Usage: conda_new <name> <conda package or \"\"> <optional python version>"}
+    local install_pkg=$2
+    local pversion=${3:-"3"}
+    conda create --name $newenv python=$pversion $install_pkg
     conda_activate $newenv
+    pipsetup
 }
