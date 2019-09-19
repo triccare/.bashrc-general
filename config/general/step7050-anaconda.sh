@@ -100,5 +100,10 @@ function conda_new() {
     local pversion=${3:-"3"}
     conda create --name $newenv python=$pversion $install_pkg
     conda_activate $newenv
-    pipsetup
+
+    read -n 1 -p 'Continue with pip setup [y/n]? ' dopipsetup
+    echo
+    if [ "$dopipsetup" = "y" ]; then
+        pipsetup
+    fi
 }
