@@ -17,6 +17,11 @@ function term_title() {
     export PROMPT_COMMAND='printf "\033]0;%s\007" "${_TERM_TITLE}"'
 }; export -f term_title
 
+function set_badge() {
+    _BADGE=$*;
+    printf "\e]1337;SetBadgeFormat=%s\a" $(echo -n "${_BADGE}" | base64)
+}
+
 ################
 # Aliases
 ################
