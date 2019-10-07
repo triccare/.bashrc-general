@@ -87,6 +87,7 @@ function conda_remove() {
 
 function conda_activate() {
     local newenv=${1:?Environment not specified}
+    conda_deactivate
     conda activate ${newenv}
 }; export -f conda_activate
 
