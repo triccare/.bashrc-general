@@ -45,12 +45,14 @@ alias la="ls -aFGh"
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
 # ... or force ignoredups and ignorespace
-export HISTCONTROL=ignoreboth
+export HISTCONTROL=ignoreboth:erasedups
 
 # append to the history file, don't overwrite it
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+export HISTSIZE=100000                   # big big history
+export HISTFILESIZE=100000               # big big history
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
