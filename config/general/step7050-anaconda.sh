@@ -99,6 +99,7 @@ function conda_new() {
     local newenv=${1:?"Usage: conda_new <name> <conda package or \"\"> <optional python version>"}
     local install_pkg=$2
     local pversion=${3:-"3"}
+    conda update -n base -c defaults conda
     conda create --name $newenv python=$pversion $install_pkg
     conda_activate $newenv
 
