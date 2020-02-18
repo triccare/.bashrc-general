@@ -112,5 +112,10 @@ function fh() {
     history|grep -i $1
 }
 
+# Create a time stamp
+function tstamp() {
+    echo $(date "+%Y-%m-%d-%H-%M")
+}; export -f tstamp
+
 # Be friendly to your group
 umask 2
