@@ -109,3 +109,30 @@ function conda_new() {
         pipsetup
     fi
 }
+
+function conda_start_iterms() {
+    local project=${1:-"jwst"}
+    local alphabet conflist index mode modeIndex item
+
+    alphabet=({a..z})
+    conflist=()
+
+    for item in `conda_list noformat`; do
+        conflist+=("${item}")
+    done
+
+    for ((index=0; index<${#conflist[@]}; index++)); do
+        echo -e "[${alphabet[$index]}] ${conflist[$index]}"
+    done
+
+    read -n 1 -p 'Which environment? ' mode
+    echo
+
+    modeIndex=$(elementIndex $mode alphabet)
+    if [ "$modeIndex" -gt "$index" ]; then
+        echo "No environment specified, aborting"
+    else
+        make_project_iterms ${conflist[$modeIndex]} ${project}
+    fi
+
+}; export -f conda_start_iterms
