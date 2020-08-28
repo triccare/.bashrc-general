@@ -86,7 +86,7 @@ function pu() { pushd "$@"; }; export -f pu
 function po() { popd; }; export -f po
 function gohome() { cd; dirs -c; }; export -f gohome
 function lsd() {
-    find ${1-.} -type d -maxdepth 1| awk 'BEGIN { FS = "/" } ; { print $NF }'|column; 
+    find ${1-.} -maxdepth 1 -type d| awk 'BEGIN { FS = "/" } ; { print $NF }'|sort -V|column; 
 }; export -f lsd
 
 # Process handling
