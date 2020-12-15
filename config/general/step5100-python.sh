@@ -5,7 +5,7 @@
 ################
 #
 # Where to find my stuff.
-export PYTHONPATH=$HOME/bin/python/lib
+export PYTHONPATH=$HOME/bin/python_support/lib
 
 # ############
 # python shell
@@ -20,14 +20,14 @@ function pipsetup() {
     #echo "pipsetup: Updating currently installed pips"
     #python -m piprefresh
     echo "pipsetup: Installing required pips"
-    pip install --upgrade -r $HOME/bin/python/pip-basic-requirements.txt $PYTHONUSEUSER $@
+    pip install --upgrade -r $HOME/bin/python_support/pip-basic-requirements.txt $PYTHONUSEUSER $@
 }; export -f pipsetup
 
 function pipscience() {
     echo "pipscience: Updatiing currently installed pips..."
     python -m piprefresh
     echo "pipscience: Installing science pips..."
-    pip install --upgrade -r $HOME/bin/python/pip-science-requirements.txt $PYTHONUSEUSER $@
+    pip install --upgrade -r $HOME/bin/python_support/pip-science-requirements.txt $PYTHONUSEUSER $@
 }; export -f pipscience
 
 function pypkgclean() {
@@ -138,7 +138,7 @@ function mkpynb() {
         ext='.ipynb'
     fi
 
-    cp -iv $HOME/bin/python/lib/template.ipynb $1$ext
+    cp -iv $HOME/bin/python_support/lib/template.ipynb $1$ext
 
 }; export -f mkpynb
 
@@ -154,7 +154,7 @@ function mkkata() {
         ext='.py'
     fi
 
-    cp -iv $HOME/bin/python/lib/kata-template.py $1$ext
+    cp -iv $HOME/bin/python_support/lib/kata-template.py $1$ext
 
 }; export -f mkkata
 
@@ -170,7 +170,7 @@ function mkmodule() {
         ext='.py'
     fi
 
-    cp -iv $HOME/bin/python/lib/module_template.py $1$ext
+    cp -iv $HOME/bin/python_support/lib/module_template.py $1$ext
 
 }; export -f mkmodule
 
