@@ -50,13 +50,6 @@ function _pythonmodulerun() {
     python -m $cmd $@
 }; export -f _pythonmodulerun
 
-# Setup for refreshing all packages
-function piprefreshall() {
-    ur_forget
-    python -m piprefresh
-    python3 -m piprefresh
-}; export -f piprefreshall
-
 #########################
 # Python Notebook helpers
 
