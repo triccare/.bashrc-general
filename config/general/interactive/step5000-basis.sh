@@ -109,7 +109,7 @@ function csync() {
 
 # Find in history
 function fh() {
-    history|grep -i $1
+    history|grep -i $1 | egrep -v -e "^[[:space:]]+[[:digit:]]+[[:space:]]+fh[[:space:]]"
 }
 
 # Create a time stamp
