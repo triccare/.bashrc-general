@@ -14,5 +14,5 @@ export PATH=~/bin:~/varnish/bin:~/varnish/sbin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
 
 # Web development
-export ARCHFLAGS='-arch x86_64'
-export CFLAGS='-arch x86_64'
+# export ARCHFLAGS='-arch x86_64'
+# export CFLAGS='-arch x86_64'
