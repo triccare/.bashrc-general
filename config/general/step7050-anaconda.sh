@@ -13,7 +13,7 @@ function conda_envs() {
 function conda_list() {
 
     local format name resline result
-    
+
     format=
     if [ -z $1 ]; then
         format='format'
@@ -111,7 +111,7 @@ function conda_new() {
 }
 
 function conda_start_iterms() {
-    local project=${1:-"jwst"}
+    local project=${1:?"Usage: conda_start_iterms <project>"}
     local alphabet conflist index mode modeIndex item
 
     alphabet=({a..z})

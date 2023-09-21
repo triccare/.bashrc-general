@@ -2,5 +2,5 @@
 #
 # General emacs setup
 
-export EDITOR=`which emacsclient`
+export EDITOR="emacsclient -c"
 export ALTERNATE_EDITOR=`which emacs`
