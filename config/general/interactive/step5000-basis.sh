@@ -18,8 +18,14 @@ function term_title() {
 }; export -f term_title
 
 function set_badge() {
-    _BADGE=$*;
+    local usage="Usage: set_badge <badge> [-t]"
+    _BADGE=${1?$usage};
+    local term=${2:-"-nt"}
     printf "\e]1337;SetBadgeFormat=%s\a" $(echo -n "${_BADGE}" | base64)
+
+    if [ "$term" = "-t" ]; then
+        term_title ${_BADGE}
+    fi
 }
 
 ################
