@@ -99,6 +99,13 @@ function conda_new() {
     local newenv=${1:?"Usage: conda_new <name> <conda package or \"\"> <optional python version>"}
     local install_pkg=$2
     local pversion=${3:-"3"}
+
+    # Clean up caches. Caches very occasionally cause out-of-date
+    # issues, but just do it because OCD
+    conda clean --all -y
+    pip cache purge --no-input
+
+    # Setup the new environment
     conda update -n base -c defaults conda
     conda create --name $newenv python=$pversion $install_pkg
     conda_activate $newenv
