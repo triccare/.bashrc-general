@@ -100,11 +100,6 @@ function conda_new() {
     local install_pkg=$2
     local pversion=${3:-"3"}
 
-    # Clean up caches. Caches very occasionally cause out-of-date
-    # issues, but just do it because OCD
-    conda clean --all -y
-    pip cache purge --no-input
-
     # Setup the new environment
     conda update -n base -c defaults conda
     conda create --name $newenv python=$pversion $install_pkg
@@ -115,6 +110,11 @@ function conda_new() {
     if [ "$dopipsetup" = "y" ]; then
         pipsetup
     fi
+}
+
+function conda_purge() {
+    conda clean --all -y
+    pip cache purge --no-input
 }
 
 function conda_start_iterms() {
