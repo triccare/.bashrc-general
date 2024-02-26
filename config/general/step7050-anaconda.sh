@@ -81,7 +81,7 @@ function conda_remove() {
     if [ "$modeIndex" -gt "$index" ]; then
         echo "No change in environment"
     else
-        conda remove --name ${conflist[$modeIndex]} --all
+        conda remove --name ${conflist[$modeIndex]} --all --yes
     fi
 }; export -f conda_remove
 
